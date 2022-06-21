@@ -1,0 +1,111 @@
+@charset "UTF-8";
+
+/* BASE CONFIGS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  background-color: #fff;
+}
+
+body {
+  display: grid;
+  grid-template-columns: 0.15fr 1fr;
+  height: 100vh;
+  margin: 0 auto;
+}
+
+/* VARIABLES */
+
+/* Reconfig default tags*/
+h1 {
+  font-size: 23px;
+}
+
+/* HEADER */
+
+header {
+  display: grid;
+  background-color: antiquewhite;
+  grid-row-start: 1;
+  grid-row-end: 3;
+  width: 100%;
+  height: 100%;
+  grid-template-rows: 1.4fr 0.6fr;
+}
+
+header .nav-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* background-color: blanchedalmond; */
+  margin: 5px;
+  margin-top: 10vh;
+  border: 1px solid black;
+}
+
+header .circle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+  /* background-color: black; */
+}
+
+header .circle {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background-color: white;
+}
+
+header nav {
+  display: flex;
+  flex-direction: column;
+  border-radius: 2px;
+}
+
+header nav ul {
+  display: flex;
+  width: 95%;
+  margin: 5px;
+  list-style-type: none;
+  flex-direction: column;
+}
+
+header nav ul li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: azure;
+  margin-top: 5px;
+  padding: 15px;
+  border-radius: 6px;
+}
+
+header .imgs {
+  display: flex;
+  justify-content: center;
+}
+
+header section img {
+  width: 30px;
+  height: 28px;
+}
+
+/* MAIN */
+
+main {
+  background-color: aqua;
+  height: 95vh;
+}
+
+/* FOOTER */
+
+footer {
+  background-color: beige;
+  height: 5vh;
+}
