@@ -1,0 +1,50 @@
+main {
+  height: 95vh;
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  padding-left: 20%;
+  padding-right: 20%;
+  padding-bottom: 10%;
+  background-color: aliceblue;
+}
+
+main h2 {
+  /* background-color: antiquewhite; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border-bottom: 1px solid black; */
+}
+
+main .main-default {
+  /* background-color: black; */
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+}
+
+main .main-infos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* background-color: aqua; */
+}
+
+main .main-imgs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  /* background-color: azure; */
+}
+
+main .main-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+}
+
+main .main-icon img {
+  width: 5vh;
+  height: 5vh;
+}

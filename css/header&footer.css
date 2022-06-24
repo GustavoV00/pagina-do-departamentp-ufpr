@@ -1,0 +1,108 @@
+/* HEADER */
+@import url(./variables.css);
+
+header {
+  display: grid;
+  /* background-color: antiquewhite; */
+  grid-row-start: 1;
+  grid-row-end: 3;
+  width: 100%;
+  height: 100vh;
+  grid-template-rows: 1.4fr 0.6fr;
+  border-right: 1px solid gray;
+  background-color: var(--bs-primary);
+}
+
+header .nav-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 5px;
+  margin-top: 10vh;
+}
+
+header .circle-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
+  /* background-color: black; */
+}
+
+header .circle {
+  width: 25vh;
+  height: 25vh;
+  border-radius: 50%;
+  background-image: url("../assets/images/myself.jpg");
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  /* background-color: #cccccc; */
+  border: 10px solid var(--bs-dark);
+}
+
+header nav {
+  display: flex;
+  flex-direction: column;
+  border-radius: 2px;
+}
+
+header nav ul {
+  display: flex;
+  width: 95%;
+  margin: 5px;
+  list-style-type: none;
+  flex-direction: column;
+}
+
+header nav ul li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bs-primary);
+  margin-top: 5px;
+  padding: 15px;
+  border-radius: 6px;
+  font-size: 1.2rem;
+  color: white;
+  -webkit-box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.33);
+  box-shadow: 5px 5px 15px 5px rgba(0, 0, 0, 0.33);
+  border: 1px solid var(--bs-light);
+  transition: 0.2s;
+}
+
+header nav ul li:hover {
+  /* opacity: 0.9; */
+  cursor: pointer;
+  background-color: var(--bs-dark);
+  color: var(--bs-info);
+}
+
+header .imgs {
+  display: flex;
+  justify-content: center;
+}
+
+header section img {
+  width: 30px;
+  height: 28px;
+}
+
+footer {
+  background-color: var(--bs-primary);
+  height: 5vh;
+  padding-left: 20%;
+  padding-right: 20%;
+}
+
+footer .footer-copyright {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 1%;
+  color: var(--bs-light);
+}
+
+footer .footer-copyright p a {
+  text-decoration: none;
+  color: var(--bs-light);
+}

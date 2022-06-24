@@ -1,0 +1,38 @@
+@charset "UTF-8";
+
+/* BASE CONFIGS */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--bs-body-font-family);
+}
+
+html {
+  /* background-color: #fff; */
+  font-family: var(--bs-body-font-family);
+}
+
+body {
+  display: grid;
+  grid-template-columns: 0.19fr 1fr;
+  height: 100vh;
+  margin: 0 auto;
+  font-family: var(--bs-body-font-family);
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
