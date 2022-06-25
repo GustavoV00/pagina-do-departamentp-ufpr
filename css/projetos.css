@@ -62,16 +62,16 @@ main .main-p-wrapper p {
   text-align: center;
 }
 
-main section form {
+main section a {
   display: flex;
   align-items: center;
   justify-content: center;
   padding-bottom: 2vh;
 }
 
-main section form button {
+main section a button {
   padding: 13px;
-  width: 100%;
+  width: 50%;
   font-size: 1rem;
   background-color: var(--bs-primary);
   color: var(--bs-light);
@@ -80,7 +80,7 @@ main section form button {
   transition: 0.3s;
 }
 
-main section form button:hover {
+main section a button:hover {
   background-color: var(--bs-dark);
   color: var(--bs-info);
   cursor: pointer;
