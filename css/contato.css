@@ -5,7 +5,6 @@ main {
   padding-left: 20%;
   padding-right: 20%;
   padding-bottom: 10%;
-  background-color: aliceblue;
 }
 
 main h2 {
@@ -33,18 +32,42 @@ main .main-infos {
 main .main-imgs {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  padding: 3vh;
   /* background-color: azure; */
 }
 
 main .main-icon {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   border: 1px solid black;
+  margin-right: 2vh;
+  border-radius: 5%;
 }
 
 main .main-icon img {
-  width: 5vh;
-  height: 5vh;
+  width: 8vh;
+  height: 8vh;
+}
+
+main li {
+  font-size: 1.3rem;
+}
+
+button {
+  padding: 13px;
+  width: 80%;
+  font-size: 1rem;
+  background-color: var(--bs-primary);
+  color: var(--bs-light);
+  border-radius: 3%;
+  /* --bs-success: #62c462; */
+  transition: 0.3s;
+}
+
+button:hover {
+  background-color: var(--bs-dark);
+  color: var(--bs-info);
+  cursor: pointer;
 }

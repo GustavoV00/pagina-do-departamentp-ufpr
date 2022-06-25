@@ -38,6 +38,11 @@ header .circle {
   background-size: 100% 100%;
   /* background-color: #cccccc; */
   border: 10px solid var(--bs-dark);
+  transition: 1s;
+}
+
+header .circle:hover {
+  border: 10px solid var(--bs-info);
 }
 
 header nav {
