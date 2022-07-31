@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trabalho 3 - Web</title>
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+  <body onload="main()">
+    <div id="content-wrapper">
+      <div id="header">
+        <form action="/">
+          <button>Home</button>
+        </form>
+        <h1>Processador de Retas</h1>
+        <div class="quantidade_retas">
+          <h3>Quantidade de retas:</h3>
+          <div class="quantidade_retas_clear">
+            <div>
+              <div>
+                <button onclick="drawOneLine()" id="oneLine">1</span>
+                <button onClick="drawThreeLines()" id="threeLines">3</button>
+                <button onClick="drawFourLines()" id="fourLines">4</button>
+              </div>
+              <div>
+                <button onClick="drawFiveLines()" id="fiveLines">5</button>
+                <button onClick="drawSixLines()" id="sixLines">6</button>
+                <button onClick="drawSevenLines()" id="sevenLines">7</button>
+                <button onClick="drawEightLines()" id="eightLines">8</button>
+              </div>
+            </div>
+            <button onclick="clearTheBoard()" >clear</button>
+          </div>
+        </div>
+      </div>
+      <div id="main">
+        <canvas 
+          id="canvas"
+          onmousemove="mouseMoveEventHandler(event)"
+          onmouseup="mouseUpEventHandler(event)"
+          onmousedown="mouseDownEventHandler(event)"
+        >
+        </canvas>
+      </div>
+      <div id="footer">
+        <div>
+          Left Click nas postas para mover elas e no centro para mover a reta -
+          Right Click próximo para dividir ao meio 
+        </div>
+        <div>
+          <span id="coordenadas"></span>
+        </div>
+      </div>
+    </div>
+
+    <script src="./js/main.js"></script>
+    <script src="./js/drawLines.js"></script>
+  </body>
+</html>
