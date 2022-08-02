@@ -27,9 +27,13 @@ function drawMainLine(
   console.log(line);
 
   const pressing = false;
-  lines.push({ line, startX, startY, rowSize, pressing, ctx });
+  const k = 0;
+  const endX = startX + rowSize;
+  const endY = startX + rowSize;
+  lines.push({ line, startX, startY, endX, endY, rowSize, pressing, ctx, k });
 }
 
+let xRowSize, yRowSize;
 function possibleEvents(canvas) {
   for (let i = 0; i < lines.length; i++) {
     canvas.addEventListener("mousedown", (e) => {
@@ -43,105 +47,72 @@ function possibleEvents(canvas) {
 
         console.log("ESTOU ENTRANDO AQUI: ", x, y);
         console.log(lines[i].startX, " e ", lines[i].startY);
-        if (x >= lines[i].startX && x <= lines[i].startX + 10) {
+        if (x >= lines[i].startX && x <= lines[i].startX + 20) {
           console.log("cliquei na ponta esquerda");
           lines[i].pressing = true;
           lines[i].left = true;
-        } else if (
-          x <= lines[i].startX + lines[i].rowSize &&
-          x >= lines[i].startX + lines[i].rowSize - 10
-        ) {
+          xRowSize = lines[i].startX + lines[i].rowSize;
+          yRowSize = lines[i].startY + lines[i].rowSize;
+        } else if (x <= lines[i].endX && x >= lines[i].endX - 20) {
           console.log("cliquei na ponta direita");
           lines[i].pressing = true;
           lines[i].right = true;
+          xRowSize = lines[i].startX + lines[i].rowSize;
+          yRowSize = lines[i].startY + lines[i].rowSize;
         }
       }
     });
+
     canvas.addEventListener("mousemove", (e) => {
       if (lines[i].pressing) {
-        console.log("Estou entrando aquiJK");
         let canvas = document.querySelector("canvas");
-        const removedLine = lines.splice(i, i);
+        const ctx = canvas.getContext("2d");
 
         const rect = canvas.getBoundingClientRect();
         const x = Math.round(e.clientX - rect.left);
         const y = Math.round(e.clientY - rect.top);
 
-        let ctx = canvas.getContext("2d");
         ctx.lineWidth = size + 2;
 
-        const newLine = new Path2D();
+        const line = new Path2D();
 
-        // clearTheBoard();
+        line.moveTo(lines[i].startX, lines[i].startY);
+        line.lineTo(x, y);
 
-        newLine.moveTo(removedLine.startX, removedLine.startY);
-        newLine.lineTo(x, y);
+        clearTheBoard();
 
-        ctx.stroke(newLine);
+        ctx.stroke(line);
 
-        const pressing = true;
-        lines.push({ newLine, x, y, rowSize, pressing, ctx });
+        const pressing = false;
+        startX = x;
+        startY = y;
+        const endX = lines[i].startX;
+        const endY = lines[i].startY;
+        lines.push({
+          line,
+          startX,
+          startY,
+          endX,
+          endY,
+          rowSize,
+          pressing,
+          ctx,
+        });
+        console.log("mousemove");
       }
+      detectMousePosition(e);
     });
+
     canvas.addEventListener("mouseup", () => {
       if (lines[i].pressing) {
+        const size = lines.length;
+
         lines[i].pressing = false;
-        console.log("mouseup");
+        lines.splice(0, lines.length - 1);
+        console.log(lines);
       }
     });
   }
-}
-
-// function mouseDownEventHandler(e) {
-//   lines.forEach((line) => {
-//     if (line && line.ctx.isPointInStroke(line.line, e.offsetX, e.offsetY)) {
-//       const rect = canvas.getBoundingClientRect();
-//       const x = Math.round(e.clientX - rect.left);
-//       const y = Math.round(e.clientY - rect.top);
-
-//       console.log("ESTOU ENTRANDO AQUI: ", x, y);
-//       console.log(line.startX, " e ", line.startY);
-//       if (x >= line.startX && x <= line.startX + 10) {
-//         console.log("cliquei na ponta esquerda");
-//         line.pressing = true;
-//         line.left = true;
-//       } else if (
-//         x <= line.startX + line.rowSize &&
-//         x >= line.startX + line.rowSize - 10
-//       ) {
-//         console.log("cliquei na ponta direita");
-//         line.pressing = true;
-//         line.right = true;
-//       }
-//     }
-//   });
-// }
-
-function mouseMoveEventHandler(e) {
-  for (let i = 0; i < lines.length; i++) {
-    // if (lines[i].pressing) {
-    //   console.log("Estou entrando aquiJK");
-    //   let canvas = document.querySelector("canvas");
-    //   const removedLine = lines.splice(i, i);
-    //   const rect = canvas.getBoundingClientRect();
-    //   const x = Math.round(e.clientX - rect.left);
-    //   const y = Math.round(e.clientY - rect.top);
-    //   let ctx = canvas.getContext("2d");
-    //   ctx.lineWidth = size + 2;
-    //   const newLine = new Path2D();
-    //   // clearTheBoard();
-    //   newLine.moveTo(removedLine.startX, removedLine.startY);
-    //   newLine.lineTo(x, y);
-    //   ctx.stroke(newLine);
-    //   const pressing = true;
-    //   lines.push({ newLine, x, y, rowSize, pressing, ctx });
-    // }
-  }
-  // lines.forEach((line) => {
-  //   if (line.pressing) {
-  //   }
-  // });
-  detectMousePosition(e);
 }
 
 function mouseUpEventHandler(e) {
@@ -153,7 +124,7 @@ function mouseUpEventHandler(e) {
   });
 }
 
-const lines = [];
+let lines = [];
 const size = 5;
 function main(e) {
   let canvas = document.querySelector("canvas");
