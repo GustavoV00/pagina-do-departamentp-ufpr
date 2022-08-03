@@ -21,20 +21,19 @@ function drawMainLine(
   line.moveTo(startX, startY);
   line.lineTo(startX + rowSize, startY);
 
-  // startX -= rowSize;
-
   ctx.stroke(line);
   console.log(line);
 
   const pressing = false;
   const k = 0;
   const endX = startX + rowSize;
-  const endY = startX + rowSize;
+  const endY = startY;
   lines.push({ line, startX, startY, endX, endY, rowSize, pressing, ctx, k });
 }
 
 let xRowSize, yRowSize;
 function possibleEvents(canvas) {
+  let endX, endY, startX, startY;
   for (let i = 0; i < lines.length; i++) {
     canvas.addEventListener("mousedown", (e) => {
       if (
@@ -76,38 +75,47 @@ function possibleEvents(canvas) {
 
         const line = new Path2D();
 
-        line.moveTo(lines[i].startX, lines[i].startY);
-        line.lineTo(x, y);
+        if (lines[i].right) {
+          line.moveTo(lines[i].startX, lines[i].startY);
+          line.lineTo(x, y);
+          startX = lines[i].startX;
+          startY = lines[i].startY;
+          endX = x;
+          endY = y;
+        } else if (lines[i].left) {
+          line.moveTo(x, y);
+          line.lineTo(lines[i].endX, lines[i].endY);
+          startX = x;
+          startY = y;
+          endX = lines[i].endX;
+          endY = lines[i].endY;
+        }
 
         clearTheBoard();
 
         ctx.stroke(line);
 
         const pressing = false;
-        startX = x;
-        startY = y;
-        const endX = lines[i].startX;
-        const endY = lines[i].startY;
         lines.push({
           line,
           startX,
           startY,
           endX,
           endY,
-          rowSize,
           pressing,
           ctx,
         });
         console.log("mousemove");
       }
+
       detectMousePosition(e);
     });
 
     canvas.addEventListener("mouseup", () => {
       if (lines[i].pressing) {
-        const size = lines.length;
-
         lines[i].pressing = false;
+        lines[i].right = false;
+        lines[i].left = false;
         lines.splice(0, lines.length - 1);
         console.log(lines);
       }
