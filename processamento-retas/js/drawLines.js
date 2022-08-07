@@ -221,10 +221,3 @@ function drawEightLines() {
   const pressing = false;
   lines.push({ line, startX, startY, rowSize, pressing, ctx });
 }
-
-function clearTheBoard() {
-  const canvas = document.querySelector("canvas");
-  lines.forEach((line) => {
-    line.ctx.clearRect(0, 0, canvas.width, canvas.height);
-  });
-}
