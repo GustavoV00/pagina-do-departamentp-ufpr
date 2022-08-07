@@ -1,7 +1,47 @@
+function insereInArrayLines(
+  flag,
+  lines,
+  line,
+  startX,
+  startY,
+  endX,
+  endY,
+  pressing,
+  ctx
+) {
+  if (flag == 0) {
+    lines[0].push({
+      line,
+      startX,
+      startY,
+      endX,
+      endY,
+      pressing,
+      ctx,
+    });
+  } else {
+    lines.push([
+      {
+        line,
+        startX,
+        startY,
+        endX,
+        endY,
+        pressing,
+        ctx,
+      },
+    ]);
+  }
+}
+
 function drawOneLine() {
-  if (lines) clearTheBoard();
+  console.log("ENTREI NO DRAWONELINE");
+  if (lines[0]) {
+    clearTheBoard();
+    lines[0].splice(0, lines[0].length);
+  }
   let ctx = canvas.getContext("2d");
-  ctx.lineWidth = size;
+  ctx.lineWidth = size + 2;
 
   startX = canvas.width / 2;
   startY = canvas.height / 2;
@@ -9,215 +49,572 @@ function drawOneLine() {
 
   const line = new Path2D();
 
-  line.moveTo(startX - 50, startY);
+  line.moveTo(startX, startY);
   line.lineTo(startX + rowSize, startY);
 
   ctx.stroke(line);
 
   const pressing = false;
-  lines.push({ line, startX, startY, rowSize, pressing, ctx });
+  endX = startX + rowSize;
+  endY = startY;
+
+  insereInArrayLines(0, lines, line, startX, startY, endX, end, pressing, ctx);
+  console.log(lines);
 }
 
 /* DRAW THE AMOUNT OF LINES */
 function drawThreeLines() {
-  if (lines) clearTheBoard();
+  console.log("ENTREI NO DRAWTHREELINESJK");
+  if (lines[0]) {
+    clearTheBoard();
+    deleteOlderLines();
+  }
   let ctx = canvas.getContext("2d");
-  ctx.lineWidth = size;
+  const pressing = false;
+  ctx.lineWidth = size + 2;
 
-  startX = canvas.width / 2;
-  startY = canvas.height / 2;
+  const startXOrig = canvas.width / 2;
+  const startYOrig = canvas.height / 2;
   const rowSize = 100;
 
-  const line = new Path2D();
+  let line = new Path2D();
 
-  line.moveTo(startX - rowSize, startY);
-  line.lineTo(startX + rowSize, startY);
-
-  line.moveTo(startX - rowSize, startY);
-  line.lineTo(startX, startY - rowSize);
-
-  line.moveTo(startX + rowSize, startY);
-  line.lineTo(startX, startY - rowSize);
-
+  line.moveTo(startXOrig - rowSize, startYOrig);
+  line.lineTo(startXOrig + rowSize, startYOrig);
   ctx.stroke(line);
 
-  const pressing = false;
-  lines.push({ line, startX, startY, rowSize, pressing, ctx });
+  endX = startXOrig + rowSize;
+  endY = startYOrig;
+
+  startX = startXOrig - rowSize;
+  startY = startYOrig;
+
+  ctx.stroke(line);
+  insereInArrayLines(0, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig - rowSize, startYOrig);
+  line.lineTo(startXOrig, startYOrig - rowSize);
+
+  endX = startXOrig;
+  endY = startYOrig - rowSize;
+
+  startX = startXOrig - rowSize;
+  startY = startYOrig;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig + rowSize, startYOrig);
+  line.lineTo(startXOrig, startYOrig - rowSize);
+
+  endX = startXOrig + rowSize;
+  endY = startYOrig;
+
+  startX = startXOrig;
+  startY = startYOrig - rowSize;
+  ctx.stroke(line);
+
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
 }
 
 function drawFourLines() {
-  if (lines) clearTheBoard();
+  if (lines[0]) {
+    clearTheBoard();
+    deleteOlderLines();
+  }
   let ctx = canvas.getContext("2d");
-  ctx.lineWidth = size;
+  ctx.lineWidth = size + 2;
 
-  startX = canvas.width / 2;
-  startY = canvas.height / 2;
+  const startXOrig = canvas.width / 2;
+  const startYOrig = canvas.height / 2;
   const rowSize = 100;
+  const pressing = false;
 
-  const line = new Path2D();
+  let line = new Path2D();
 
-  line.moveTo(startX - rowSize, startY);
-  line.lineTo(startX + rowSize, startY);
+  line.moveTo(startXOrig - rowSize, startYOrig);
+  line.lineTo(startXOrig + rowSize, startYOrig);
 
-  line.moveTo(startX - rowSize, startY);
-  line.lineTo(startX - rowSize, startY - rowSize);
+  endX = startXOrig + rowSize;
+  endY = startYOrig;
 
-  line.moveTo(startX + rowSize, startY);
-  line.lineTo(startX + rowSize, startY - rowSize);
-
-  line.moveTo(startX - rowSize, startY - rowSize);
-  line.lineTo(startX + rowSize, startY - rowSize);
+  startX = startXOrig - rowSize;
+  startY = startYOrig;
 
   ctx.stroke(line);
+  insereInArrayLines(0, lines, line, startX, startY, endX, endY, pressing, ctx);
 
-  const pressing = false;
-  lines.push({ line, startX, startY, rowSize, pressing, ctx });
+  line = new Path2D();
+
+  line.moveTo(startXOrig - rowSize, startYOrig);
+  line.lineTo(startXOrig - rowSize, startYOrig - rowSize);
+
+  endX = startXOrig - rowSize;
+  endY = startYOrig - rowSize;
+
+  startX = startXOrig - rowSize;
+  startY = startYOrig;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig + rowSize, startYOrig);
+  line.lineTo(startXOrig + rowSize, startYOrig - rowSize);
+
+  endX = startXOrig + rowSize;
+  endY = startYOrig - rowSize;
+
+  startX = startXOrig + rowSize;
+  startY = startYOrig;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+  line = new Path2D();
+
+  line.moveTo(startXOrig - rowSize, startYOrig - rowSize);
+  line.lineTo(startXOrig + rowSize, startYOrig - rowSize);
+
+  endX = startXOrig + rowSize;
+  endY = startYOrig - rowSize;
+
+  startX = startXOrig - rowSize;
+  startY = startYOrig - rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
 }
 
 function drawFiveLines() {
-  if (lines) clearTheBoard();
+  if (lines[0]) {
+    clearTheBoard();
+    deleteOlderLines();
+  }
   let ctx = canvas.getContext("2d");
-  ctx.lineWidth = size;
+  ctx.lineWidth = size + 2;
+  const pressing = false;
 
-  startX = canvas.width / 2;
-  startY = canvas.height / 2;
+  const startXOrig = canvas.width / 2;
+  const startYOrig = canvas.height / 2;
   const rowSize = 100;
 
-  const line = new Path2D();
+  let line = new Path2D();
 
-  line.moveTo(startX - rowSize, startY);
-  line.lineTo(startX, startY - rowSize);
+  line.moveTo(startXOrig - rowSize, startYOrig);
+  line.lineTo(startXOrig, startYOrig - rowSize);
 
-  line.moveTo(startX, startY - rowSize);
-  line.lineTo(startX + rowSize, startY - rowSize);
+  endX = startXOrig;
+  endY = startYOrig - rowSize;
 
-  line.moveTo(startX + rowSize, startY - rowSize);
-  line.lineTo(startX + rowSize + rowSize, startY);
-
-  line.moveTo(startX + rowSize + rowSize, startY);
-  line.lineTo(startX + rowSize / 2, startY + rowSize + rowSize);
-
-  line.moveTo(startX + rowSize / 2, startY + rowSize + rowSize);
-  line.lineTo(startX - rowSize, startY);
+  startX = startXOrig - rowSize;
+  startY = startYOrig;
 
   ctx.stroke(line);
+  insereInArrayLines(0, lines, line, startX, startY, endX, endY, pressing, ctx);
 
-  const pressing = false;
-  lines.push({ line, startX, startY, rowSize, pressing, ctx });
+  line = new Path2D();
+
+  line.moveTo(startXOrig, startYOrig - rowSize);
+  line.lineTo(startXOrig + rowSize, startYOrig - rowSize);
+
+  endX = startXOrig + rowSize;
+  endY = startYOrig - rowSize;
+
+  startX = startXOrig;
+  startY = startYOrig - rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig + rowSize, startYOrig - rowSize);
+  line.lineTo(startXOrig + rowSize + rowSize, startYOrig);
+
+  endX = startXOrig + rowSize + rowSize;
+  endY = startYOrig;
+
+  startX = startXOrig + rowSize;
+  startY = startYOrig - rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig + rowSize + rowSize, startYOrig);
+  line.lineTo(startXOrig + rowSize / 2, startYOrig + rowSize + rowSize);
+
+  endX = startXOrig + rowSize / 2;
+  endY = startYOrig + rowSize + rowSize;
+
+  startX = startXOrig + rowSize + rowSize;
+  startY = startYOrig;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig + rowSize / 2, startYOrig + rowSize + rowSize);
+  line.lineTo(startXOrig - rowSize, startYOrig);
+
+  endX = startXOrig - rowSize;
+  endY = startYOrig;
+
+  startX = startXOrig + rowSize / 2;
+  startY = startYOrig + rowSize + rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
 }
 
 function drawSixLines() {
-  if (lines) clearTheBoard();
+  if (lines[0]) {
+    clearTheBoard();
+    deleteOlderLines();
+  }
+
   let ctx = canvas.getContext("2d");
-  ctx.lineWidth = size;
+  ctx.lineWidth = size + 2;
 
-  startX = canvas.width / 2;
-  startY = canvas.height / 2;
+  const startXOrig = canvas.width / 2;
+  const startYOrig = canvas.height / 2;
   const rowSize = 100;
+  const pressing = false;
 
-  const line = new Path2D();
+  let line = new Path2D();
 
-  line.moveTo(startX - rowSize, startY);
-  line.lineTo(startX, startY - rowSize);
+  line.moveTo(startXOrig - rowSize, startYOrig);
+  line.lineTo(startXOrig, startYOrig - rowSize);
 
-  line.moveTo(startX, startY - rowSize);
-  line.lineTo(startX + rowSize, startY - rowSize);
+  endX = startXOrig;
+  endY = startYOrig - rowSize;
 
-  line.moveTo(startX + rowSize, startY - rowSize);
-  line.lineTo(startX + rowSize + rowSize, startY);
-
-  line.moveTo(startX + rowSize + rowSize, startY);
-  line.lineTo(startX + rowSize, startY + rowSize);
-
-  line.moveTo(startX + rowSize, startY + rowSize);
-  line.lineTo(startX, startY + rowSize);
-
-  line.moveTo(startX, startY + rowSize);
-  line.lineTo(startX - rowSize, startY);
+  startX = startXOrig - rowSize;
+  startY = startYOrig;
 
   ctx.stroke(line);
+  insereInArrayLines(0, lines, line, startX, startY, endX, endY, pressing, ctx);
 
-  const pressing = false;
-  lines.push({ line, startX, startY, rowSize, pressing, ctx });
+  line = new Path2D();
+
+  line.moveTo(startXOrig, startYOrig - rowSize);
+  line.lineTo(startXOrig + rowSize, startYOrig - rowSize);
+
+  endX = startXOrig + rowSize;
+  endY = startYOrig - rowSize;
+
+  startX = startXOrig;
+  startY = startYOrig - rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig + rowSize, startYOrig - rowSize);
+  line.lineTo(startXOrig + rowSize + rowSize, startYOrig);
+
+  endX = startXOrig + rowSize + rowSize;
+  endY = startYOrig;
+
+  startX = startXOrig + rowSize;
+  startY = startYOrig - rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig + rowSize + rowSize, startYOrig);
+  line.lineTo(startXOrig + rowSize, startYOrig + rowSize);
+
+  endX = startXOrig + rowSize;
+  endY = startYOrig + rowSize;
+
+  startX = startXOrig + rowSize + rowSize;
+  startY = startYOrig;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig + rowSize, startYOrig + rowSize);
+  line.lineTo(startXOrig, startYOrig + rowSize);
+
+  endX = startXOrig;
+  endY = startYOrig + rowSize;
+
+  startX = startXOrig + rowSize;
+  startY = startYOrig + rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig, startYOrig + rowSize);
+  line.lineTo(startXOrig - rowSize, startYOrig);
+
+  endX = startXOrig - rowSize;
+  endY = startYOrig;
+
+  startX = startXOrig;
+  startY = startYOrig + rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
 }
 
 function drawSevenLines() {
-  if (lines) clearTheBoard();
+  if (lines[0]) {
+    clearTheBoard();
+    deleteOlderLines();
+  }
 
   let ctx = canvas.getContext("2d");
   ctx.lineWidth = size;
 
-  startX = canvas.width / 2;
-  startY = canvas.height / 2;
+  const startXOrig = canvas.width / 2;
+  const startYOrig = canvas.height / 2;
   const rowSize = 100;
+  const pressing = false;
 
-  const line = new Path2D();
+  let line = new Path2D();
 
-  line.moveTo(startX - rowSize, startY);
-  line.lineTo(startX, startY - rowSize);
+  line.moveTo(startXOrig - rowSize, startYOrig);
+  line.lineTo(startXOrig, startYOrig - rowSize);
 
-  line.moveTo(startX, startY - rowSize);
-  line.lineTo(startX + rowSize, startY - rowSize);
+  endX = startXOrig + rowSize;
+  endY = startYOrig - rowSize;
 
-  line.moveTo(startX + rowSize, startY - rowSize);
-  line.lineTo(startX + rowSize + rowSize, startY);
-
-  line.moveTo(startX + rowSize + rowSize, startY);
-  line.lineTo(startX + rowSize + rowSize / 2, startY + rowSize);
-
-  line.moveTo(startX + rowSize + rowSize / 2, startY + rowSize);
-  line.lineTo(startX + rowSize / 2, startY + rowSize + rowSize / 2);
-
-  line.moveTo(startX + rowSize / 2, startY + rowSize + rowSize / 2);
-  line.lineTo(startX - rowSize / 2, startY + rowSize);
-
-  line.moveTo(startX - rowSize / 2, startY + rowSize);
-  line.lineTo(startX - rowSize, startY);
+  startX = startXOrig;
+  startY = startYOrig - rowSize;
 
   ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
 
-  const pressing = false;
-  lines.push({ line, startX, startY, rowSize, pressing, ctx });
+  line = new Path2D();
+
+  line.moveTo(startXOrig, startYOrig - rowSize);
+  line.lineTo(startXOrig + rowSize, startYOrig - rowSize);
+
+  endX = startXOrig + rowSize;
+  endY = startYOrig - rowSize;
+
+  startX = startXOrig;
+  startY = startYOrig - rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig + rowSize, startYOrig - rowSize);
+  line.lineTo(startXOrig + rowSize + rowSize, startYOrig);
+
+  endX = startXOrig + rowSize;
+  endY = startYOrig - rowSize;
+
+  startX = startXOrig;
+  startY = startYOrig - rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig + rowSize + rowSize, startYOrig);
+  line.lineTo(startXOrig + rowSize + rowSize / 2, startYOrig + rowSize);
+
+  endX = startXOrig + rowSize;
+  endY = startYOrig - rowSize;
+
+  startX = startXOrig;
+  startY = startYOrig - rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig + rowSize + rowSize / 2, startYOrig + rowSize);
+  line.lineTo(startXOrig + rowSize / 2, startY + rowSize + rowSize / 2);
+
+  endX = startXOrig + rowSize;
+  endY = startYOrig - rowSize;
+
+  startX = startXOrig;
+  startY = startYOrig - rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig + rowSize / 2, startYOrig + rowSize + rowSize / 2);
+  line.lineTo(startXOrig - rowSize / 2, startYOrig + rowSize);
+
+  endX = startXOrig + rowSize;
+  endY = startYOrig - rowSize;
+
+  startX = startXOrig;
+  startY = startYOrig - rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig - rowSize / 2, startYOrig + rowSize);
+  line.lineTo(startXOrig - rowSize, startYOrig);
+
+  endX = startXOrig + rowSize;
+  endY = startYOrig - rowSize;
+
+  startX = startXOrig;
+  startY = startYOrig - rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
 }
 
 function drawEightLines() {
-  if (lines) clearTheBoard();
+  if (lines[0]) {
+    clearTheBoard();
+    deleteOlderLines();
+  }
 
   let ctx = canvas.getContext("2d");
-  ctx.lineWidth = size;
+  ctx.lineWidth = size + 2;
 
-  startX = canvas.width / 2;
-  startY = canvas.height / 2;
+  const startXOrig = canvas.width / 2;
+  const startYOrig = canvas.height / 2;
   const rowSize = 100;
+  const pressing = false;
 
-  const line = new Path2D();
+  let line = new Path2D();
 
-  line.moveTo(startX - rowSize, startY);
-  line.lineTo(startX - rowSize / 2, startY - rowSize);
+  line.moveTo(startXOrig - rowSize, startYOrig);
+  line.lineTo(startXOrig - rowSize / 2, startYOrig - rowSize);
 
-  line.moveTo(startX - rowSize / 2, startY - rowSize);
-  line.lineTo(startX + rowSize - rowSize / 2, startY - rowSize - rowSize / 2);
+  endX = startXOrig - rowSize / 2;
+  endY = startYOrig - rowSize;
 
-  line.moveTo(startX + rowSize - rowSize / 2, startY - rowSize - rowSize / 2);
-  line.lineTo(startX + rowSize + rowSize / 2, startY - rowSize);
-
-  line.moveTo(startX + rowSize + rowSize / 2, startY - rowSize);
-  line.lineTo(startX + rowSize + rowSize, startY);
-
-  line.moveTo(startX + rowSize + rowSize, startY);
-  line.lineTo(startX + rowSize + rowSize / 2, startY + rowSize);
-
-  line.moveTo(startX + rowSize + rowSize / 2, startY + rowSize);
-  line.lineTo(startX + rowSize / 2, startY + rowSize + rowSize / 2);
-
-  line.moveTo(startX + rowSize / 2, startY + rowSize + rowSize / 2);
-  line.lineTo(startX - rowSize / 2, startY + rowSize);
-
-  line.moveTo(startX - rowSize / 2, startY + rowSize);
-  line.lineTo(startX - rowSize, startY);
+  startX = startXOrig - rowSize;
+  startY = startYOrig;
 
   ctx.stroke(line);
+  insereInArrayLines(0, lines, line, startX, startY, endX, endY, pressing, ctx);
 
-  const pressing = false;
-  lines.push({ line, startX, startY, rowSize, pressing, ctx });
+  line = new Path2D();
+
+  line.moveTo(startXOrig - rowSize / 2, startYOrig - rowSize);
+  line.lineTo(
+    startXOrig + rowSize - rowSize / 2,
+    startYOrig - rowSize - rowSize / 2
+  );
+
+  endX = startXOrig + rowSize - rowSize / 2;
+  endY = startYOrig - rowSize - rowSize / 2;
+
+  startX = startXOrig - rowSize / 2;
+  startY = startYOrig - rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(
+    startXOrig + rowSize - rowSize / 2,
+    startYOrig - rowSize - rowSize / 2
+  );
+  line.lineTo(startXOrig + rowSize + rowSize / 2, startYOrig - rowSize);
+
+  endX = startXOrig + rowSize + rowSize / 2;
+  endY = startYOrig - rowSize;
+
+  startX = startXOrig + rowSize - rowSize / 2;
+  startY = startYOrig - rowSize - rowSize / 2;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig + rowSize + rowSize / 2, startYOrig - rowSize);
+  line.lineTo(startXOrig + rowSize + rowSize, startYOrig);
+
+  endX = startXOrig + rowSize + rowSize;
+  endY = startYOrig;
+
+  startX = startXOrig + rowSize + rowSize / 2;
+  startY = startYOrig - rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig + rowSize + rowSize, startYOrig);
+  line.lineTo(startXOrig + rowSize + rowSize / 2, startYOrig + rowSize);
+
+  endX = startXOrig + rowSize + rowSize / 2;
+  endY = startYOrig + rowSize;
+
+  startX = startXOrig + rowSize + rowSize;
+  startY = startYOrig;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig + rowSize + rowSize / 2, startYOrig + rowSize);
+  line.lineTo(startXOrig + rowSize / 2, startYOrig + rowSize + rowSize / 2);
+
+  endX = startXOrig + rowSize / 2;
+  endY = startYOrig + rowSize + rowSize / 2;
+
+  startX = startXOrig + rowSize + rowSize / 2;
+  startY = startYOrig + rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig + rowSize / 2, startYOrig + rowSize + rowSize / 2);
+  line.lineTo(startXOrig - rowSize / 2, startYOrig + rowSize);
+
+  endX = startXOrig - rowSize / 2;
+  endY = startYOrig + rowSize;
+
+  startX = startXOrig + rowSize / 2;
+  startY = startYOrig + rowSize + rowSize / 2;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig - rowSize / 2, startYOrig + rowSize);
+  line.lineTo(startXOrig - rowSize, startYOrig);
+
+  endX = startXOrig - rowSize;
+  endY = startYOrig;
+
+  startX = startXOrig - rowSize / 2;
+  startY = startYOrig + rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
 }
