@@ -36,9 +36,9 @@ function insereInArrayLines(
 
 function drawOneLine() {
   console.log("ENTREI NO DRAWONELINE");
-  if (lines[0]) {
+  if (lines.length > 0) {
     clearTheBoard();
-    lines[0].splice(0, lines[0].length);
+    deleteOlderLines();
   }
   let ctx = canvas.getContext("2d");
   ctx.lineWidth = size + 2;
@@ -58,14 +58,14 @@ function drawOneLine() {
   endX = startX + rowSize;
   endY = startY;
 
-  insereInArrayLines(0, lines, line, startX, startY, endX, end, pressing, ctx);
+  insereInArrayLines(0, lines, line, startX, startY, endX, endY, pressing, ctx);
   console.log(lines);
 }
 
 /* DRAW THE AMOUNT OF LINES */
 function drawThreeLines() {
   console.log("ENTREI NO DRAWTHREELINESJK");
-  if (lines[0]) {
+  if (lines.length > 0) {
     clearTheBoard();
     deleteOlderLines();
   }
@@ -79,14 +79,13 @@ function drawThreeLines() {
 
   let line = new Path2D();
 
-  line.moveTo(startXOrig - rowSize, startYOrig);
+  line.moveTo(startXOrig - rowSize - 1, startYOrig);
   line.lineTo(startXOrig + rowSize, startYOrig);
-  ctx.stroke(line);
 
   endX = startXOrig + rowSize;
   endY = startYOrig;
 
-  startX = startXOrig - rowSize;
+  startX = startXOrig - rowSize - 1;
   startY = startYOrig;
 
   ctx.stroke(line);
@@ -94,13 +93,13 @@ function drawThreeLines() {
 
   line = new Path2D();
 
-  line.moveTo(startXOrig - rowSize, startYOrig);
+  line.moveTo(startXOrig - rowSize - 1, startYOrig);
   line.lineTo(startXOrig, startYOrig - rowSize);
 
   endX = startXOrig;
   endY = startYOrig - rowSize;
 
-  startX = startXOrig - rowSize;
+  startX = startXOrig - rowSize - 1;
   startY = startYOrig;
 
   ctx.stroke(line);
@@ -116,8 +115,8 @@ function drawThreeLines() {
 
   startX = startXOrig;
   startY = startYOrig - rowSize;
-  ctx.stroke(line);
 
+  ctx.stroke(line);
   insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
 }
 
@@ -380,7 +379,7 @@ function drawSevenLines() {
   }
 
   let ctx = canvas.getContext("2d");
-  ctx.lineWidth = size;
+  ctx.lineWidth = size + 2;
 
   const startXOrig = canvas.width / 2;
   const startYOrig = canvas.height / 2;
@@ -392,14 +391,14 @@ function drawSevenLines() {
   line.moveTo(startXOrig - rowSize, startYOrig);
   line.lineTo(startXOrig, startYOrig - rowSize);
 
-  endX = startXOrig + rowSize;
+  endX = startXOrig;
   endY = startYOrig - rowSize;
 
-  startX = startXOrig;
-  startY = startYOrig - rowSize;
+  startX = startXOrig - rowSize;
+  startY = startYOrig;
 
   ctx.stroke(line);
-  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+  insereInArrayLines(0, lines, line, startX, startY, endX, endY, pressing, ctx);
 
   line = new Path2D();
 
@@ -420,10 +419,10 @@ function drawSevenLines() {
   line.moveTo(startXOrig + rowSize, startYOrig - rowSize);
   line.lineTo(startXOrig + rowSize + rowSize, startYOrig);
 
-  endX = startXOrig + rowSize;
-  endY = startYOrig - rowSize;
+  endX = startXOrig + rowSize + rowSize;
+  endY = startYOrig;
 
-  startX = startXOrig;
+  startX = startXOrig + rowSize;
   startY = startYOrig - rowSize;
 
   ctx.stroke(line);
@@ -434,11 +433,11 @@ function drawSevenLines() {
   line.moveTo(startXOrig + rowSize + rowSize, startYOrig);
   line.lineTo(startXOrig + rowSize + rowSize / 2, startYOrig + rowSize);
 
-  endX = startXOrig + rowSize;
-  endY = startYOrig - rowSize;
+  endX = startXOrig + rowSize + rowSize / 2;
+  endY = startYOrig + rowSize;
 
-  startX = startXOrig;
-  startY = startYOrig - rowSize;
+  startX = startXOrig + rowSize + rowSize;
+  startY = startYOrig;
 
   ctx.stroke(line);
   insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
@@ -448,11 +447,11 @@ function drawSevenLines() {
   line.moveTo(startXOrig + rowSize + rowSize / 2, startYOrig + rowSize);
   line.lineTo(startXOrig + rowSize / 2, startY + rowSize + rowSize / 2);
 
-  endX = startXOrig + rowSize;
-  endY = startYOrig - rowSize;
+  endX = startXOrig + rowSize / 2;
+  endY = startYOrig + rowSize + rowSize / 2;
 
-  startX = startXOrig;
-  startY = startYOrig - rowSize;
+  startX = startXOrig + rowSize + rowSize / 2;
+  startY = startYOrig + rowSize;
 
   ctx.stroke(line);
   insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
@@ -462,11 +461,11 @@ function drawSevenLines() {
   line.moveTo(startXOrig + rowSize / 2, startYOrig + rowSize + rowSize / 2);
   line.lineTo(startXOrig - rowSize / 2, startYOrig + rowSize);
 
-  endX = startXOrig + rowSize;
-  endY = startYOrig - rowSize;
+  endX = startXOrig - rowSize / 2;
+  endY = startYOrig + rowSize;
 
-  startX = startXOrig;
-  startY = startYOrig - rowSize;
+  startX = startXOrig + rowSize / 2;
+  startY = startYOrig + rowSize + rowSize / 2;
 
   ctx.stroke(line);
   insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
@@ -476,11 +475,11 @@ function drawSevenLines() {
   line.moveTo(startXOrig - rowSize / 2, startYOrig + rowSize);
   line.lineTo(startXOrig - rowSize, startYOrig);
 
-  endX = startXOrig + rowSize;
-  endY = startYOrig - rowSize;
+  endX = startXOrig - rowSize;
+  endY = startYOrig;
 
-  startX = startXOrig;
-  startY = startYOrig - rowSize;
+  startX = startXOrig - rowSize / 2;
+  startY = startYOrig + rowSize;
 
   ctx.stroke(line);
   insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);

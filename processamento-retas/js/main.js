@@ -49,7 +49,6 @@ function onMouseDownEventHandler(e) {
         const x = Math.round(e.clientX - rect.left);
         const y = Math.round(e.clientY - rect.top);
 
-        console.log(lines[i][j].startX, " e ", lines[i][j].startY);
         if (x >= lines[i][j].startX && x <= lines[i][j].startX + GAP) {
           console.log("ENTREI NO MOUSEDOWN");
           console.log("cliquei na ponta esquerda");
@@ -147,13 +146,15 @@ function onContextMenuEventHandler(e) {
         const x = Math.round(e.clientX - rect.left);
         const y = Math.round(e.clientY - rect.top);
 
-        const half = (lines[i][j].endX - lines[i][j].startX) / 2;
-        console.log(half);
+        const halfX = (lines[i][j].endX - lines[i][j].startX) / 2;
+        const halfY = (lines[i][j].endY - lines[i][j].startY) / 2;
+
+        // Este meio indica o meio da linha
         if (
-          (x >= lines[i][j].startX + half &&
-            x <= lines[i][j].startX + half + GAP) ||
-          (x >= lines[i][j].startX + half &&
-            x <= lines[i][j].startX + half - GAP)
+          (x >= lines[i][j].startX + halfX &&
+            lines[i][j].startX + halfX + GAP) ||
+          (x >= lines[i][j].startX + halfX &&
+            x <= lines[i][j].startX + halfX - GAP)
         ) {
           console.log("ENTREI NO BOTÃO DIREITO");
           let ctx = canvas.getContext("2d");
@@ -165,7 +166,7 @@ function onContextMenuEventHandler(e) {
           drawNonUsedLines(i, ctx);
 
           line.moveTo(lines[i][j].startX, lines[i][j].startY);
-          line.lineTo(lines[i][j].startX + half, lines[i][j].startY);
+          line.lineTo(lines[i][j].startX + halfX, lines[i][j].startY + halfY);
 
           ctx.strokeStyle = "#FF0000";
           ctx.stroke(line);
@@ -173,8 +174,8 @@ function onContextMenuEventHandler(e) {
           startX = lines[i][j].startX;
           startY = lines[i][j].startY;
 
-          endX = lines[i][j].startX + half;
-          endY = lines[i][j].startY;
+          endX = lines[i][j].startX + halfX;
+          endY = lines[i][j].startY + halfY;
 
           lines[i].push({
             line,
@@ -188,16 +189,16 @@ function onContextMenuEventHandler(e) {
           ctx = canvas.getContext("2d");
 
           line = new Path2D();
-          console.log("HALF: ", half);
+          console.log("halfX: ", halfX);
 
-          line.moveTo(lines[i][j].startX + half, lines[i][j].startY);
+          line.moveTo(lines[i][j].startX + halfX, lines[i][j].startY + halfY);
           line.lineTo(lines[i][j].endX, lines[i][j].endY);
 
           ctx.strokeStyle = "#000000";
           ctx.stroke(line);
 
-          startX = lines[i][j].startX + half;
-          startY = lines[i][j].startY;
+          startX = lines[i][j].startX + halfX;
+          startY = lines[i][j].startY + halfY;
 
           endX = lines[i][j].endX;
           endY = lines[i][j].endY;
@@ -224,13 +225,15 @@ function onContextMenuEventHandler(e) {
 let lines = [[]];
 let endX, endY, startX, startY;
 const size = 5;
+
 function main(e) {
   let canvas = document.querySelector("canvas");
   let ctx = canvas.getContext("2d");
   canvas = drawBoard(canvas);
 
-  centerX = canvas.width / 2;
-  centerY = canvas.height / 2;
+  const rect = canvas.getBoundingClientRect();
+  const centerX = Math.round(canvas.width / 2 - rect.left);
+  const centerY = Math.round(canvas.height / 2 - rect.top);
 
   const rowSize = 100;
   drawMainLine(centerX, centerY, rowSize, lines);
@@ -244,9 +247,9 @@ function detectMousePosition(e) {
   const y = e.clientY - rect.top;
 
   console.log();
-  document.getElementById("coordenadas").innerHTML = `${Math.round(
+  document.getElementById("coordenadas").innerHTML = `x:${Math.round(
     x
-  )}:${Math.round(y)}`;
+  )}:y${Math.round(y)}`;
 }
 
 function clearTheBoard(i) {
@@ -263,7 +266,7 @@ function drawNonUsedLines(movedI, ctx) {
         lines[i][j].line.moveTo(lines[i][j].endX, lines[i][j].endY);
 
         ctx.stroke(lines[i][j].line);
-        console.log("ESTOU ENTRANDO AQUI TOMA NOCU PORRA");
+        console.log("ESQUECI DE TROCAR O CONOLSE.LOG, FOI MAL PELO COMMIT");
       }
     }
   }
@@ -273,4 +276,5 @@ function deleteOlderLines() {
   for (let i = 0; i < lines.length; i++) {
     lines[i].splice(0, lines[i].length);
   }
+  lines = [[]];
 }
