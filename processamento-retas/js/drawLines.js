@@ -64,7 +64,6 @@ function drawOneLine() {
 
 /* DRAW THE AMOUNT OF LINES */
 function drawThreeLines() {
-  console.log("ENTREI NO DRAWTHREELINESJK");
   if (lines.length > 0) {
     clearTheBoard();
     deleteOlderLines();
@@ -79,31 +78,17 @@ function drawThreeLines() {
 
   let line = new Path2D();
 
-  line.moveTo(startXOrig - rowSize - 1, startYOrig);
+  line.moveTo(startXOrig - rowSize, startYOrig);
   line.lineTo(startXOrig + rowSize, startYOrig);
 
   endX = startXOrig + rowSize;
   endY = startYOrig;
 
-  startX = startXOrig - rowSize - 1;
+  startX = startXOrig - rowSize;
   startY = startYOrig;
 
   ctx.stroke(line);
   insereInArrayLines(0, lines, line, startX, startY, endX, endY, pressing, ctx);
-
-  line = new Path2D();
-
-  line.moveTo(startXOrig - rowSize - 1, startYOrig);
-  line.lineTo(startXOrig, startYOrig - rowSize);
-
-  endX = startXOrig;
-  endY = startYOrig - rowSize;
-
-  startX = startXOrig - rowSize - 1;
-  startY = startYOrig;
-
-  ctx.stroke(line);
-  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
 
   line = new Path2D();
 
@@ -118,13 +103,28 @@ function drawThreeLines() {
 
   ctx.stroke(line);
   insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig, startYOrig - rowSize);
+  line.lineTo(startXOrig - rowSize, startYOrig);
+
+  endX = startXOrig - rowSize;
+  endY = startYOrig;
+
+  startX = startXOrig;
+  startY = startYOrig - rowSize;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
 }
 
 function drawFourLines() {
-  if (lines[0]) {
+  if (lines.length > 0) {
     clearTheBoard();
     deleteOlderLines();
   }
+  console.log(lines);
   let ctx = canvas.getContext("2d");
   ctx.lineWidth = size + 2;
 
@@ -176,13 +176,13 @@ function drawFourLines() {
   insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
   line = new Path2D();
 
-  line.moveTo(startXOrig - rowSize, startYOrig - rowSize);
-  line.lineTo(startXOrig + rowSize, startYOrig - rowSize);
+  line.moveTo(startXOrig + rowSize, startYOrig - rowSize);
+  line.lineTo(startXOrig - rowSize, startYOrig - rowSize);
 
-  endX = startXOrig + rowSize;
+  endX = startXOrig - rowSize;
   endY = startYOrig - rowSize;
 
-  startX = startXOrig - rowSize;
+  startX = startXOrig + rowSize;
   startY = startYOrig - rowSize;
 
   ctx.stroke(line);
@@ -190,7 +190,7 @@ function drawFourLines() {
 }
 
 function drawFiveLines() {
-  if (lines[0]) {
+  if (lines.length > 0) {
     clearTheBoard();
     deleteOlderLines();
   }
@@ -246,24 +246,10 @@ function drawFiveLines() {
 
   line = new Path2D();
 
-  line.moveTo(startXOrig + rowSize + rowSize, startYOrig);
-  line.lineTo(startXOrig + rowSize / 2, startYOrig + rowSize + rowSize);
-
-  endX = startXOrig + rowSize / 2;
-  endY = startYOrig + rowSize + rowSize;
-
-  startX = startXOrig + rowSize + rowSize;
-  startY = startYOrig;
-
-  ctx.stroke(line);
-  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
-
-  line = new Path2D();
-
   line.moveTo(startXOrig + rowSize / 2, startYOrig + rowSize + rowSize);
-  line.lineTo(startXOrig - rowSize, startYOrig);
+  line.lineTo(startXOrig + rowSize + rowSize, startYOrig);
 
-  endX = startXOrig - rowSize;
+  endX = startXOrig + rowSize + rowSize;
   endY = startYOrig;
 
   startX = startXOrig + rowSize / 2;
@@ -271,10 +257,24 @@ function drawFiveLines() {
 
   ctx.stroke(line);
   insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
+
+  line = new Path2D();
+
+  line.moveTo(startXOrig - rowSize, startYOrig);
+  line.lineTo(startXOrig + rowSize / 2, startYOrig + rowSize + rowSize);
+
+  endX = startXOrig + rowSize / 2;
+  endY = startYOrig + rowSize + rowSize;
+
+  startX = startXOrig - rowSize;
+  startY = startYOrig;
+
+  ctx.stroke(line);
+  insereInArrayLines(1, lines, line, startX, startY, endX, endY, pressing, ctx);
 }
 
 function drawSixLines() {
-  if (lines[0]) {
+  if (lines.length > 0) {
     clearTheBoard();
     deleteOlderLines();
   }
@@ -373,7 +373,7 @@ function drawSixLines() {
 }
 
 function drawSevenLines() {
-  if (lines[0]) {
+  if (lines.length > 0) {
     clearTheBoard();
     deleteOlderLines();
   }
@@ -486,7 +486,7 @@ function drawSevenLines() {
 }
 
 function drawEightLines() {
-  if (lines[0]) {
+  if (lines.length > 0) {
     clearTheBoard();
     deleteOlderLines();
   }

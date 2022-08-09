@@ -1,4 +1,5 @@
-const GAP = 10;
+const GAPX = 20;
+const GAPY = 1;
 function drawBoard(canvas) {
   canvas.width = window.innerWidth / 1.1;
   canvas.height = window.innerHeight / 1.3;
@@ -10,7 +11,7 @@ function drawMainLine(
   startY = 0,
   rowSize,
   lines,
-  size = 5,
+  size = 0,
   lineCap = "round"
 ) {
   let ctx = canvas.getContext("2d");
@@ -48,17 +49,33 @@ function onMouseDownEventHandler(e) {
         const rect = canvas.getBoundingClientRect();
         const x = Math.round(e.clientX - rect.left);
         const y = Math.round(e.clientY - rect.top);
+        const halfX = (lines[i][j].endX - lines[i][j].startX) / 2;
+        const halfY = (lines[i][j].endY - lines[i][j].startY) / 2;
 
-        if (x >= lines[i][j].startX && x <= lines[i][j].startX + GAP) {
+        if (
+          (x >= lines[i][j].startX && x <= lines[i][j].startX + GAPX) ||
+          (x <= lines[i][j].startX && x >= lines[i][j].startX - GAPX)
+        ) {
           console.log("ENTREI NO MOUSEDOWN");
           console.log("cliquei na ponta esquerda");
           lines[i][j].pressing = true;
           lines[i][j].left = true;
-        } else if (x <= lines[i][j].endX && x >= lines[i][j].endX - GAP) {
+        } else if (
+          (x <= lines[i][j].endX && x >= lines[i][j].endX - GAPX) ||
+          (x >= lines[i][j].endX && x <= lines[i][j].endX + GAPX)
+        ) {
           console.log("ENTREI NO MOUSEDOWN");
           console.log("cliquei na ponta direita");
           lines[i][j].pressing = true;
           lines[i][j].right = true;
+        } else if (
+          (x >= lines[i][j].startX + halfX &&
+            lines[i][j].startX + halfX + GAPX) ||
+          (x >= lines[i][j].startX + halfX &&
+            x <= lines[i][j].startX + halfX - GAPX)
+        ) {
+          lines[i][j].pressing = true;
+          lines[i][j].center = true;
         }
       }
     }
@@ -95,6 +112,16 @@ function onMouseMoveEventHandler(e) {
           startY = y;
           endX = lines[i][j].endX;
           endY = lines[i][j].endY;
+        } else if (lines[i][j].center) {
+          const sizeX = lines[i][j].startX - lines[i][j].endX;
+          const sizeY = lines[i][j].startY - lines[i][j].endY;
+          line.moveTo(x, y);
+          line.lineTo(x + sizeX, y + sizeY);
+
+          startX = x;
+          startY = y;
+          endX = x + sizeX;
+          endY = y + sizeY;
         }
 
         clearTheBoard();
@@ -127,6 +154,7 @@ function onMouseUpEventHandler(e) {
         lines[i][j].pressing = false;
         lines[i][j].right = false;
         lines[i][j].left = false;
+        lines[i][j].center = false;
         lines[i].splice(0, lines[i].length - 1);
         console.log(lines);
       }
@@ -152,9 +180,9 @@ function onContextMenuEventHandler(e) {
         // Este meio indica o meio da linha
         if (
           (x >= lines[i][j].startX + halfX &&
-            lines[i][j].startX + halfX + GAP) ||
+            lines[i][j].startX + halfX + GAPX) ||
           (x >= lines[i][j].startX + halfX &&
-            x <= lines[i][j].startX + halfX - GAP)
+            x <= lines[i][j].startX + halfX - GAPX)
         ) {
           console.log("ENTREI NO BOTÃO DIREITO");
           let ctx = canvas.getContext("2d");
@@ -232,11 +260,11 @@ function main(e) {
   canvas = drawBoard(canvas);
 
   const rect = canvas.getBoundingClientRect();
-  const centerX = Math.round(canvas.width / 2 - rect.left);
-  const centerY = Math.round(canvas.height / 2 - rect.top);
+  const centerX = Math.round(canvas.width / 2);
+  const centerY = Math.round(canvas.height / 2);
 
   const rowSize = 100;
-  drawMainLine(centerX, centerY, rowSize, lines);
+  drawMainLine(centerX, centerY, rowSize, lines, size);
   // possibleEvents(canvas);
 }
 
