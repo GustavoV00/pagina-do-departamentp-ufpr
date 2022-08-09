@@ -41,7 +41,6 @@ function drawMainLine(
 function onMouseDownEventHandler(e) {
   for (let i = 0; i < lines.length; i++) {
     for (let j = 0; j < lines[i].length; j++) {
-      console.log(lines);
       if (
         lines[i][j] &&
         lines[i][j].ctx.isPointInStroke(lines[i][j].line, e.offsetX, e.offsetY)
@@ -56,16 +55,12 @@ function onMouseDownEventHandler(e) {
           (x >= lines[i][j].startX && x <= lines[i][j].startX + GAPX) ||
           (x <= lines[i][j].startX && x >= lines[i][j].startX - GAPX)
         ) {
-          console.log("ENTREI NO MOUSEDOWN");
-          console.log("cliquei na ponta esquerda");
           lines[i][j].pressing = true;
           lines[i][j].left = true;
         } else if (
           (x <= lines[i][j].endX && x >= lines[i][j].endX - GAPX) ||
           (x >= lines[i][j].endX && x <= lines[i][j].endX + GAPX)
         ) {
-          console.log("ENTREI NO MOUSEDOWN");
-          console.log("cliquei na ponta direita");
           lines[i][j].pressing = true;
           lines[i][j].right = true;
         } else if (
@@ -86,7 +81,6 @@ function onMouseMoveEventHandler(e) {
   for (let i = 0; i < lines.length; i++) {
     for (let j = 0; j < lines[i].length; j++) {
       if (lines[i][j].pressing) {
-        console.log("ENTREI NO MOUSEMOVE");
         let canvas = document.querySelector("canvas");
         const ctx = canvas.getContext("2d");
 
@@ -139,7 +133,6 @@ function onMouseMoveEventHandler(e) {
           pressing,
           ctx,
         });
-        console.log(lines);
       }
     }
   }
@@ -150,13 +143,11 @@ function onMouseUpEventHandler(e) {
   for (let i = 0; i < lines.length; i++) {
     for (let j = 0; j < lines[i].length; j++) {
       if (lines[i][j].pressing) {
-        console.log("ENTREI NO MOUSEUP");
         lines[i][j].pressing = false;
         lines[i][j].right = false;
         lines[i][j].left = false;
         lines[i][j].center = false;
         lines[i].splice(0, lines[i].length - 1);
-        console.log(lines);
       }
     }
   }
@@ -184,7 +175,6 @@ function onContextMenuEventHandler(e) {
           (x >= lines[i][j].startX + halfX &&
             x <= lines[i][j].startX + halfX - GAPX)
         ) {
-          console.log("ENTREI NO BOTÃO DIREITO");
           let ctx = canvas.getContext("2d");
 
           const pressing = false;
@@ -217,7 +207,6 @@ function onContextMenuEventHandler(e) {
           ctx = canvas.getContext("2d");
 
           line = new Path2D();
-          console.log("halfX: ", halfX);
 
           line.moveTo(lines[i][j].startX + halfX, lines[i][j].startY + halfY);
           line.lineTo(lines[i][j].endX, lines[i][j].endY);
@@ -243,7 +232,6 @@ function onContextMenuEventHandler(e) {
             },
           ]);
           lines[i].shift();
-          console.log(lines);
         }
       }
     }
@@ -274,7 +262,6 @@ function detectMousePosition(e) {
   const x = e.clientX - rect.left;
   const y = e.clientY - rect.top;
 
-  console.log();
   document.getElementById("coordenadas").innerHTML = `x:${Math.round(
     x
   )}:y${Math.round(y)}`;
@@ -289,12 +276,10 @@ function drawNonUsedLines(movedI, ctx) {
   for (let i = 0; i < lines.length; i++) {
     for (let j = 0; j < lines[i].length; j++) {
       if (i != movedI) {
-        console.log("I: ", i);
         lines[i][j].line.moveTo(lines[i][j].startX, lines[i][j].startY);
         lines[i][j].line.moveTo(lines[i][j].endX, lines[i][j].endY);
 
         ctx.stroke(lines[i][j].line);
-        console.log("ESQUECI DE TROCAR O CONOLSE.LOG, FOI MAL PELO COMMIT");
       }
     }
   }

@@ -35,7 +35,6 @@ function insereInArrayLines(
 }
 
 function drawOneLine() {
-  console.log("ENTREI NO DRAWONELINE");
   if (lines.length > 0) {
     clearTheBoard();
     deleteOlderLines();
@@ -59,7 +58,6 @@ function drawOneLine() {
   endY = startY;
 
   insereInArrayLines(0, lines, line, startX, startY, endX, endY, pressing, ctx);
-  console.log(lines);
 }
 
 /* DRAW THE AMOUNT OF LINES */
@@ -124,7 +122,6 @@ function drawFourLines() {
     clearTheBoard();
     deleteOlderLines();
   }
-  console.log(lines);
   let ctx = canvas.getContext("2d");
   ctx.lineWidth = size + 2;
 
