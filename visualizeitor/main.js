@@ -213,18 +213,44 @@ function addModalWhenClick() {
   });
 }
 
-function leftClickEventHandler(e) {
-  const grr = $("input").val();
-  if (grr) {
-    const code = e.target.innerText;
-    const historico = STUDENTS.filter((student) => {
+function selectTheCorrectHistoric(code, grr) {
+  if (code === "TG 1" || code === "TG 2") {
+    return STUDENTS.filter((student) => {
+      if (
+        (student.MATR_ALUNO === grr &&
+          student.DESCR_ESTRUTURA === "Trabalho de Graduação I") ||
+        (student.MATR_ALUNO === grr &&
+          student.DESCR_ESTRUTURA === "Trabalho de Graduação II")
+      )
+        return student;
+    });
+  } else if (code === "OPT") {
+    return STUDENTS.filter((student) => {
+      if (
+        student.MATR_ALUNO === grr &&
+        student.DESCR_ESTRUTURA === "Optativas"
+      ) {
+        return student;
+      }
+    });
+  } else {
+    return STUDENTS.filter((student) => {
       if (student.MATR_ALUNO == grr && student.COD_ATIV_CURRIC == code) {
         return student;
       }
     });
-    $("#staticBackdrop").modal("show");
+  }
+}
+
+function leftClickEventHandler(e) {
+  const grr = $("input").val();
+  if (grr) {
     const modal = $(".modal-body");
     $(modal).empty();
+    const code = e.target.innerText;
+    console.log(code);
+
+    const historico = selectTheCorrectHistoric(code, grr);
     $(modal).append(`<div class="row row-cols-8 ">
       <div class="col border border-dark p-1 text-center">Código</div>
       <div class="col-3 border border-dark p-1 text-center">Nome</div>
@@ -234,9 +260,9 @@ function leftClickEventHandler(e) {
       <div class="col border border-dark p-1 text-center">Nota final</div>
       <div class="col border border-dark p-1 text-center">Frequência</div>
     </div>`);
-    let i = 1;
     const historicoSize = historico.length - 1;
     const h = historico[historicoSize];
+    console.log(historico, STUDENTS);
     $(modal).append(`
       <div class="row row-cols-7 ">
         <div class="col border border-dark p-1 text-center">${
@@ -248,15 +274,14 @@ function leftClickEventHandler(e) {
         <div class="col border border-dark p-1  text-center">${h.ANO}</div>
         <div class="col border border-dark p-1  text-center">${h.PERIODO}</div>
         <div class="col border border-dark p-1  text-center">${h.SIGLA}</div>
-        <div class="col border border-dark p-1  text-center">${
-          h.MEDIA_FINAL
-        }</div>
+        <div class="col border border-dark p-1  text-center">
+          ${h.MEDIA_FINAL}
+        </div>
         <div class="col border border-dark p-1  text-center">${Math.floor(
           parseInt(h.FREQUENCIA)
         )}</div>
       </div>
     `);
-    i += 1;
   }
 }
 
@@ -264,16 +289,13 @@ function rightClickEventHandler(e) {
   e.preventDefault();
   const grr = $("input").val();
   if (grr) {
-    const code = e.target.innerText;
-    const historico = STUDENTS.filter((student) => {
-      if (student.MATR_ALUNO == grr && student.COD_ATIV_CURRIC == code) {
-        return student;
-      }
-    });
-    console.log(historico);
-    $("#staticBackdrop").modal("show");
     const modal = $(".modal-body");
     $(modal).empty();
+    const code = e.target.innerText;
+
+    const historico = selectTheCorrectHistoric(code, grr);
+    console.log(historico);
+    $("#staticBackdrop").modal("show");
     $(modal).append(`<div class="row row-cols-8 ">
       <div class="col border border-dark p-1 text-center">Ordem</div>
       <div class="col border border-dark p-1 text-center">Código</div>
